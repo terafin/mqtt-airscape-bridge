@@ -13,7 +13,7 @@ airscape_ip = process.env.AIRSCAPE_IP
 airscape_topic = process.env.AIRSCAPE_TOPIC
 
 // Set up modules
-logging.set_enabled(true)
+logging.set_enabled(false)
 
 // Setup MQTT
 client = mqtt.connect(host)

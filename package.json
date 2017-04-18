@@ -5,7 +5,7 @@
     "license": "MIT",
     "main": "airscape-mqtt-bridge.js",
     "scripts": {
-        "start": "airscape homeseer-mqtt-bridge.js"
+        "start": "airscape-mqtt-bridge.js"
     },
     "dependencies": {
         "request": "^2.81.0",
