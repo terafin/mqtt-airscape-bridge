@@ -8,7 +8,7 @@
         "url": "https://github.com/terafin/airscape-mqtt-bridge"
     },
     "scripts": {
-        "start": "airscape-mqtt-bridge.js"
+        "start": "node airscape-mqtt-bridge.js"
     },
     "dependencies": {
         "request": "^2.81.0",
