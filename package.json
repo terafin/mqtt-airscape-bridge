@@ -4,6 +4,9 @@
     "description": "Bridge Airscape via HTTP to and from MQTT",
     "license": "MIT",
     "main": "airscape-mqtt-bridge.js",
+    "repository": {
+        "url": "https://github.com/terafin/airscape-mqtt-bridge"
+    },
     "scripts": {
         "start": "airscape-mqtt-bridge.js"
     },
