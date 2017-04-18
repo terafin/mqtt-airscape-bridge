@@ -4,6 +4,7 @@ url = require('url')
 
 logging = require('./homeautomation-js-lib/logging.js')
 airscape = require('./homeautomation-js-lib/airscape.js')
+mqtt_helpers = require('./homeautomation-js-lib/mqtt_helpers.js')
 
 
 // Config
@@ -35,18 +36,22 @@ client.on('message', (topic, message) => {
 })
 
 function airscape_fan_update(result) {
-    speed = result.fanspd
-    logging.log("Airscape updated")
-    logging.log(" speed:" + result.fanspd)
-    logging.log(" doorinprocess:" + result.doorinprocess)
-    logging.log(" timeremaining:" + result.timeremaining)
-    logging.log(" cfm:" + result.cfm)
-    logging.log(" power:" + result.power)
-    logging.log(" house_temp:" + result.house_temp)
-    logging.log(" attic_temp:" + result.attic_temp)
-    logging.log(" oa_temp:" + result.oa_temp)
+    changed_keys = Object.keys(result)
+    logging.log("Airscape updated: " + changed_keys)
+    changed_keys.forEach(
+        function(this_key) {
+            if (this_key === 'server_response')
+                return
 
-    client.publish(airscape_topic, "" + result.fanspd)
+            value = result[this_key]
+
+            if (this_key === 'fanspd') {
+                mqtt_helpers.publish(client, airscape_topic, "" + value)
+            } else {
+                mqtt_helpers.publish(client, airscape_topic + "/" + this_key, "" + value)
+            }
+        }
+    )
 }
 
 airscape.set_ip(airscape_ip)
