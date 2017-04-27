@@ -1,23 +1,23 @@
 // Requirements
-mqtt = require('mqtt')
-url = require('url')
+const mqtt = require('mqtt')
+const url = require('url')
 
-logging = require('./homeautomation-js-lib/logging.js')
-airscape = require('./homeautomation-js-lib/airscape.js')
-mqtt_helpers = require('./homeautomation-js-lib/mqtt_helpers.js')
+const logging = require('./homeautomation-js-lib/logging.js')
+const airscape = require('./homeautomation-js-lib/airscape.js')
+const mqtt_helpers = require('./homeautomation-js-lib/mqtt_helpers.js')
 
 
 // Config
-set_string = "/set"
-host = process.env.MQTT_HOST
-airscape_ip = process.env.AIRSCAPE_IP
-airscape_topic = process.env.AIRSCAPE_TOPIC
+const set_string = '/set'
+const host = process.env.MQTT_HOST
+const airscape_ip = process.env.AIRSCAPE_IP
+const airscape_topic = process.env.AIRSCAPE_TOPIC
 
 // Set up modules
 logging.set_enabled(false)
 
 // Setup MQTT
-client = mqtt.connect(host)
+var client = mqtt.connect(host)
 
 // MQTT Observation
 
@@ -37,7 +37,7 @@ client.on('message', (topic, message) => {
 
 function airscape_fan_update(result) {
     changed_keys = Object.keys(result)
-    logging.log("Airscape updated: " + changed_keys)
+    logging.log('Airscape updated: ' + changed_keys)
     changed_keys.forEach(
         function(this_key) {
             if (this_key === 'server_response')
@@ -46,9 +46,9 @@ function airscape_fan_update(result) {
             value = result[this_key]
 
             if (this_key === 'fanspd') {
-                mqtt_helpers.publish(client, airscape_topic, "" + value)
+                mqtt_helpers.publish(client, airscape_topic, '' + value)
             } else {
-                mqtt_helpers.publish(client, airscape_topic + "/" + this_key, "" + value)
+                mqtt_helpers.publish(client, airscape_topic + '/' + this_key, '' + value)
             }
         }
     )
@@ -56,3 +56,14 @@ function airscape_fan_update(result) {
 
 airscape.set_ip(airscape_ip)
 airscape.set_callback(airscape_fan_update)
+
+
+const healthCheckPort = process.env.HEALTH_CHECK_PORT
+const healthCheckTime = process.env.HEALTH_CHECK_TIME
+const healthCheckURL = process.env.HEALTH_CHECK_URL
+if ( healthCheckPort !== null && healthCheckTime !== null && healthCheckURL !== null ) {
+    logging.log('Starting health checks')
+    health.startHealthChecks(healthCheckURL, healthCheckPort, healthCheckTime)
+} else {
+    logging.log('Not starting health checks')
+}
