@@ -1,11 +1,9 @@
 // Requirements
 const mqtt = require('mqtt')
-const url = require('url')
 
 const logging = require('./homeautomation-js-lib/logging.js')
 const airscape = require('./homeautomation-js-lib/airscape.js')
 const mqtt_helpers = require('./homeautomation-js-lib/mqtt_helpers.js')
-
 
 // Config
 const set_string = '/set'
@@ -14,7 +12,7 @@ const airscape_ip = process.env.AIRSCAPE_IP
 const airscape_topic = process.env.AIRSCAPE_TOPIC
 
 // Set up modules
-logging.set_enabled(false)
+logging.set_enabled(true)
 
 // Setup MQTT
 var client = mqtt.connect(host)
@@ -57,7 +55,7 @@ function airscape_fan_update(result) {
 airscape.set_ip(airscape_ip)
 airscape.set_callback(airscape_fan_update)
 
-
+const health = require('./homeautomation-js-lib/health.js')
 const healthCheckPort = process.env.HEALTH_CHECK_PORT
 const healthCheckTime = process.env.HEALTH_CHECK_TIME
 const healthCheckURL = process.env.HEALTH_CHECK_URL
