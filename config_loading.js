@@ -1,27 +1,44 @@
 const fs = require('fs')
 const path = require('path')
 const watch = require('watch')
+const EventEmitter = require('events')
 const yaml = require('js-yaml')
 const logging = require('./logging.js')
+const _ = require('lodash')
 
 var configs = []
 var config_path = null
 
+module.exports = new EventEmitter()
 
-exports.load_path = function(in_path) {
+module.exports.load_path = function(in_path) {
+    if (_.isNil(in_path)) return
+
     config_path = in_path
-        // Watch Path
-    watch.watchTree(config_path, function(f, curr, prev) {
-        logging.log('Updating configs')
+
+    // Watch Path
+    watch.watchTree(config_path, {
+        ignoreDotFiles: true,
+        interval: 30
+    }, function(f, curr, prev) {
+        logging.info('Updating configs')
         load_device_config()
     })
 }
 
-exports.get_configs = function() {
+module.exports.get_configs = function() {
     return configs
 }
 
-exports.nameForTopic = function(in_topic) {
+module.exports.deviceIterator = function(callback) {
+    configs.forEach(function(config_item) {
+        Object.keys(config_item).forEach(function(key) {
+            callback(key, config_item[key])
+        }, this)
+    }, this)
+}
+
+module.exports.nameForTopic = function(in_topic) {
     var foundName = null
 
     configs.forEach(function(config_item) {
@@ -42,7 +59,7 @@ exports.nameForTopic = function(in_topic) {
     return foundName
 }
 
-exports.isVoiceEnabledForTopic = function(in_topic) {
+module.exports.isVoiceEnabledForTopic = function(in_topic) {
     var foundVoice = false
     var voiceResult = false
 
@@ -56,7 +73,7 @@ exports.isVoiceEnabledForTopic = function(in_topic) {
 
             const topic = map['topic']
             if (topic === in_topic) {
-                if ( map['voice_control'] !== undefined )
+                if (map['voice_control'] !== undefined)
                     voiceResult = map['voice_control']
                 foundVoice = true
             }
@@ -67,7 +84,7 @@ exports.isVoiceEnabledForTopic = function(in_topic) {
     return voiceResult
 }
 
-exports.translate_to_topic = function(in_topic) {
+module.exports.translate_to_topic = function(in_topic) {
     var found_topic = null
 
     configs.forEach(function(config_item) {
@@ -88,7 +105,7 @@ exports.translate_to_topic = function(in_topic) {
     return found_topic
 }
 
-exports.translate_from_topic = function(in_topic) {
+module.exports.translate_from_topic = function(in_topic) {
     var found_topic = null
 
     configs.forEach(function(config_item) {
@@ -110,47 +127,30 @@ exports.translate_from_topic = function(in_topic) {
     return found_topic
 }
 
-function print_device_config() {
-    configs.forEach(function(config_item) {
-        Object.keys(config_item).forEach(function(key) {
-            logging.log(' Device [' + key + ']')
-            const map = config_item[key]
-
-            const topic = map['topic']
-            const src_topic = map['change_topic']
-            const voice = map['voice_control']
-            const name = map['name']
-
-            logging.log('            name: ' + name)
-            logging.log('           topic: ' + topic)
-            logging.log('       src_topic: ' + src_topic)
-            logging.log('           voice: ' + voice)
-            logging.log('')
-
-        }, this)
-    }, this)
-}
-
 function load_device_config() {
-    fs.readdir(config_path, function(err, files) {
-        configs = []
+    try {
+        fs.readdir(config_path, function(err, files) {
+            configs = []
 
-        logging.log('Loading configs at path: ' + config_path)
-        if (err) {
-            throw err
-        }
+            logging.info('Loading configs at path: ' + config_path)
+            if (err) {
+                throw err
+            }
 
-        files.map(function(file) {
-            return path.join(config_path, file)
-        }).filter(function(file) {
-            return fs.statSync(file).isFile()
-        }).forEach(function(file) {
-            logging.log(' - Loading: ' + file)
-            const doc = yaml.safeLoad(fs.readFileSync(file, 'utf8'))
-            configs.push(doc)
+            files.map(function(file) {
+                return path.join(config_path, file)
+            }).filter(function(file) {
+                return fs.statSync(file).isFile()
+            }).forEach(function(file) {
+                logging.info(' - Loading: ' + file)
+                const doc = yaml.safeLoad(fs.readFileSync(file, 'utf8'))
+                configs.push(doc)
+            })
+
+            logging.info('...done loading configs')
+            module.exports.emit('config-loaded')
         })
-
-        logging.log('...done loading configs')
-        print_device_config()
-    })
+    } catch (e) {
+        logging.error('...config loaded failed: ' + e)
+    }
 }
