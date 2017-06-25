@@ -1,17 +1,17 @@
 {
-    "name": "airscape-mqtt-bridge",
+    "name": "mqtt-lifx-bridge",
     "version": "0.0.1",
-    "description": "Bridge Airscape via HTTP to and from MQTT",
+    "description": "Bridge LIFX UDP and MQTT",
     "license": "MIT",
-    "main": "airscape-mqtt-bridge.js",
+    "main": "mqtt-lifx-bridge.js",
     "repository": {
-        "url": "https://github.com/terafin/airscape-mqtt-bridge"
+        "url": "https://github.com/terafin/mqtt-lifx-bridge"
     },
     "scripts": {
-        "start": "node airscape-mqtt-bridge.js"
+        "start": "node mqtt-lifx-bridge.js"
     },
     "dependencies": {
-        "express": "^4.15.2",
+        "node-lifx": "^0.8.0",
         "request": "^2.81.0",
         "mqtt": "^2.6.2",
         "repeat": "^0.0.6",
