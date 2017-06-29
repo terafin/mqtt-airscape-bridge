@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:6-alpine
 
 RUN mkdir -p /usr/airscape-mqtt-bridge
 COPY . /usr/airscape-mqtt-bridge
