@@ -11,11 +11,11 @@
         "start": "node airscape-mqtt-bridge.js"
     },
     "dependencies": {
-        "express": "^4.15.2",
-        "request": "^2.81.0",
+        "express": "^4.15.3",
+        "lodash": "^4.17.4",
         "mqtt": "^2.6.2",
         "repeat": "^0.0.6",
-        "lodash": "^4.17.4",
+        "request": "^2.81.0",
         "winston": "^2.3.1",
         "winston-splunk-httplogger": "^1.2.2",
         "xml2js": "^0.4.17"
