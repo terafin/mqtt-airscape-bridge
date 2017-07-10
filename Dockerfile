@@ -1,8 +1,8 @@
-FROM node:7
+FROM node:6-alpine
 
-RUN mkdir -p /usr/node_app
-COPY . /usr/node_app
-WORKDIR /usr/node_app
+RUN mkdir -p /usr/airscape-mqtt-bridge
+COPY . /usr/airscape-mqtt-bridge
+WORKDIR /usr/airscape-mqtt-bridge
 RUN npm install --production
 
 CMD ["npm", "start"]
