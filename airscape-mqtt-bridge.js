@@ -8,6 +8,18 @@ const health = require('homeautomation-js-lib/health.js')
 
 require('homeautomation-js-lib/mqtt_helpers.js')
 
+const shouldRetain = process.env.MQTT_RETAIN
+
+if (_.isNil(shouldRetain)) {
+    shouldRetain = true
+}
+
+var mqttOptions = {}
+
+if (!_.isNil(shouldRetain)) {
+    mqttOptions['retain'] = shouldRetain
+}
+
 // Config
 const set_string = '/set'
 const airscapeTopic = process.env.AIRSCAPE_TOPIC
@@ -64,9 +76,9 @@ airscape.on('fan-updated', (result) => {
                 return
 
             if (this_key === 'fanspd') {
-                client.smartPublish(airscapeTopic, '' + value)
+                client.smartPublish(airscapeTopic, '' + value, mqttOptions)
             } else {
-                client.smartPublish(airscapeTopic + '/' + this_key, '' + value)
+                client.smartPublish(airscapeTopic + '/' + this_key, '' + value, mqttOptions)
             }
         }
     )
