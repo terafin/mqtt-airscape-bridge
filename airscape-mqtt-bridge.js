@@ -8,7 +8,7 @@ const health = require('homeautomation-js-lib/health.js')
 
 require('homeautomation-js-lib/mqtt_helpers.js')
 
-const shouldRetain = process.env.MQTT_RETAIN
+var shouldRetain = process.env.MQTT_RETAIN
 
 if (_.isNil(shouldRetain)) {
     shouldRetain = true
