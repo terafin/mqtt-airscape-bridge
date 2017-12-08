@@ -51,13 +51,13 @@ client.on('message', (topic, message) => {
 
 airscape.on('fan-updated', (result) => {
     if (_.isNil(result)) {
-        logging.log('Airscape update failed')
+        logging.error('Airscape update failed')
         health.unhealthyEvent()
         return
     }
 
     const changedKeys = Object.keys(result)
-    logging.log('Airscape updated: ' + changedKeys)
+    logging.info('Airscape updated: ' + changedKeys)
 
     if (_.isNil(changedKeys)) {
         health.unhealthyEvent()
