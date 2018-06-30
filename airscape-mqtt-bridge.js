@@ -1,6 +1,5 @@
 // Requirements
 const mqtt = require('mqtt')
-
 const logging = require('homeautomation-js-lib/logging.js')
 const airscape = require('homeautomation-js-lib/airscape.js')
 const _ = require('lodash')
