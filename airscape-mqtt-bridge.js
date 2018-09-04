@@ -24,7 +24,7 @@ const set_string = '/set'
 const airscapeTopic = process.env.TOPIC_PREFIX
 
 if (_.isNil(airscapeTopic)) {
-	logging.warn('AIRSCAPE_TOPIC not set, not starting')
+	logging.error('TOPIC_PREFIX not set, not starting')
 	process.abort()
 }
 
