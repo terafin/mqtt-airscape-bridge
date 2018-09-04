@@ -21,7 +21,7 @@ if (!_.isNil(shouldRetain)) {
 
 // Config
 const set_string = '/set'
-const airscapeTopic = process.env.AIRSCAPE_TOPIC
+const airscapeTopic = process.env.TOPIC_PREFIX
 
 if (_.isNil(airscapeTopic)) {
 	logging.warn('AIRSCAPE_TOPIC not set, not starting')
