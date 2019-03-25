@@ -13,7 +13,7 @@ if (_.isNil(shouldRetain)) {
 	shouldRetain = true
 }
 
-var mqttOptions = {qos: 2}
+var mqttOptions = {qos: 1}
 
 if (!_.isNil(shouldRetain)) {
 	mqttOptions['retain'] = shouldRetain
@@ -29,7 +29,7 @@ if (_.isNil(airscapeTopic)) {
 }
 
 var connectedEvent = function() {
-	client.subscribe(airscapeTopic + set_string, {qos: 2})
+	client.subscribe(airscapeTopic + set_string, {qos: 1})
 	health.healthyEvent()
 }
 
