@@ -4,8 +4,7 @@ const logging = require('homeautomation-js-lib/logging.js')
 const airscape = require('./lib/airscape.js')
 const _ = require('lodash')
 const health = require('homeautomation-js-lib/health.js')
-
-require('homeautomation-js-lib/mqtt_helpers.js')
+const mqtt_helpers = require('homeautomation-js-lib/mqtt_helpers.js')
 
 var shouldRetain = process.env.MQTT_RETAIN
 
@@ -38,7 +37,7 @@ var disconnectedEvent = function() {
 }
 
 // Setup MQTT
-var client = mqtt.setupClient(connectedEvent, disconnectedEvent)
+var client = mqtt_helpers.setupClient(connectedEvent, disconnectedEvent)
 
 client.on('message', (topic, message) => {
 	if (_.isNil(message) || _.isNil(topic)) {
