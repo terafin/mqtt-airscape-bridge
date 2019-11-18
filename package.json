@@ -12,7 +12,7 @@
     },
     "dependencies": {
         "events": "latest",
-        "homeautomation-js-lib": "git+https://terafin:moyawhisper1@gitlab.siliconspirit.net/home/homeautomation-js-lib.git",
+        "homeautomation-js-lib": "https://github.com/terafin/homeautomation-js-lib.git",
         "lodash": "^4.17.15",
         "mqtt": "latest",
         "repeat": "0.0.6",
