@@ -11,7 +11,7 @@
         "start": "node airscape-mqtt-bridge.js"
     },
     "dependencies": {
-        "events": "latest",
+        "events": "3.1.0",
         "homeautomation-js-lib": "https://github.com/terafin/homeautomation-js-lib.git",
         "lodash": "^4.17.15",
         "mqtt": "latest",
