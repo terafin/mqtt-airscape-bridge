@@ -1,25 +1,25 @@
 {
-    "name": "airscape-mqtt-bridge",
-    "version": "0.0.1",
-    "description": "Bridge Airscape via HTTP to and from MQTT",
-    "license": "MIT",
-    "main": "airscape-mqtt-bridge.js",
-    "repository": {
-        "url": "https://github.com/terafin/airscape-mqtt-bridge"
-    },
-    "scripts": {
-        "start": "node airscape-mqtt-bridge.js"
-    },
-    "dependencies": {
-        "events": "3.1.0",
-        "homeautomation-js-lib": "https://github.com/terafin/homeautomation-js-lib.git",
-        "lodash": "^4.17.19",
-        "mqtt": "latest",
-        "repeat": "0.0.6",
-        "request": "latest",
-        "xml2js": "0.4.23"
-    },
-    "engines": {
-        "node": ">=4"
-    }
+  "name": "airscape-mqtt-bridge",
+  "version": "0.0.1",
+  "description": "Bridge Airscape via HTTP to and from MQTT",
+  "license": "MIT",
+  "main": "airscape-mqtt-bridge.js",
+  "repository": {
+    "url": "https://github.com/terafin/airscape-mqtt-bridge"
+  },
+  "scripts": {
+    "start": "node airscape-mqtt-bridge.js"
+  },
+  "dependencies": {
+    "events": "3.1.0",
+    "homeautomation-js-lib": "https://github.com/terafin/homeautomation-js-lib.git",
+    "lodash": "^4.17.19",
+    "mqtt": "latest",
+    "repeat": "0.0.6",
+    "request": "latest",
+    "xml2js": "0.4.23"
+  },
+  "engines": {
+    "node": ">=4"
+  }
 }
